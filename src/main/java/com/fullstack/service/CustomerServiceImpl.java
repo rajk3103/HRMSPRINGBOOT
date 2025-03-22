@@ -32,31 +32,33 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Optional<Customer> findById(int custId) {
-        return Optional.empty();
+        return customerRepository.findById(custId);
     }
 
     @Override
     public List<Customer> findAll() {
-        return null;
+        return customerRepository.findAll();
     }
 
     @Override
     public List<Customer> findByName(String custName) {
-        return null;
+        return customerRepository.findByCustName(String custName);
     }
 
     @Override
     public Customer updateCustomer(Customer customer) {
-        return null;
+        return customerRepository.save(customer);
     }
 
     @Override
     public void deleteById(int custId) {
 
+        customerRepository.deleteById(custId);
     }
 
     @Override
     public void deleteAll() {
 
-    }
+        customerRepository.deleteAll();
+        }
 }
