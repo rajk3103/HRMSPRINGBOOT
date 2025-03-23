@@ -58,11 +58,11 @@ public class CustomerController {
         return ResponseEntity.ok(customerService.findAll().stream().sorted(Comparator.comparing(Customer::getCustAccountBalance)).toList());
 
     }
-    @GetMapping("/findbydob")
+    @GetMapping("/findbydob/{custDOB}")
     public ResponseEntity<List<Customer>> findByDOB(@PathVariable String custDOB) {
         SimpleDateFormat simpleDateFormat= new SimpleDateFormat("dd/MM/yyyy");
 
-        return ResponseEntity.ok(customerService.findAll().stream().filter(Customer cust ->simpleDateFormat.format(custDOB).equals(custDOB)).toList());
+        return ResponseEntity.ok(customerService.findAll().stream().filter(cust ->simpleDateFormat.format(cust.getCustDOB).equals(custDOB)).toList());
 
     }
     @GetMapping("/findbyanyinput/{input}")
@@ -70,11 +70,11 @@ public class CustomerController {
 
         SimpleDateFormat simpleDateFormat= new SimpleDateFormat("dd/MM/yyyy");
 
-        return ResponseEntity.ok(customerService.findAll().stream().filter(Customer cust->simpleDateFormat.format(input).equals(input)
+        return ResponseEntity.ok(customerService.findAll().stream().filter(cust->simpleDateFormat.format(input).equals(input)
                 || cust.getCustName().equals(input)
                 || String.valueOf(cust.getCustId()).equals(input)
                 || String.valueOf(cust.getCustomerName()).equals(input)
-                || cust.getCustEmailId().equals(input)) toList());
+                || cust.getCustEmailId().equals(input)) .toList());
     }
 
 
