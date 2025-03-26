@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository
+@Repository             //Not Mandatory
 public interface CustomerRepository extends JpaRepository<Customer, Integer> {
 
     //Custom Methods

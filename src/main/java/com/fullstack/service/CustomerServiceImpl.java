@@ -24,7 +24,7 @@ public class CustomerServiceImpl implements CustomerService {
         boolean flag = false;
 
         Customer customer= customerRepository.findByCustEmailIdAndCustPassword(custEmailId, custPassword);
-        if(customer != null && customer.getCustEmail().equals(custEmailId) && customer.getCustPassword().equals(custPassword)){
+        if(customer != null && customer.getCustEmailId().equals(custEmailId) && customer.getCustPassword().equals(custPassword)){
             flag = true;
         }
         return flag;
@@ -42,7 +42,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public List<Customer> findByName(String custName) {
-        return customerRepository.findByCustName(String custName);
+        return customerRepository.findByCustName(custName);
     }
 
     @Override
@@ -53,7 +53,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public void deleteById(int custId) {
 
-        customerRepository.deleteById(custId);
+        customerRepository.deleteById(custID);
     }
 
     @Override

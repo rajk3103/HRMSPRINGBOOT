@@ -17,10 +17,10 @@ import java.util.Date;
 
 public class Customer {
 
-    @Id
+    @Id                     //Primary key
     @GeneratedValue(strategy = GenerationType.IDENTITY)     //oracle we use SEQUENCE
 
-    private int custId;
+    private int custID;
 
     private String custName;
 
@@ -30,7 +30,7 @@ public class Customer {
     private long custContactNumber;
 
     @Column(unique = true)
-    private String custEmail;
+    private String custEmailId;
 
     private String custPassword;
 
@@ -38,7 +38,5 @@ public class Customer {
 
     @JsonFormat (pattern = "dd-MM-yyyy")
     private Date custDOB;
-
-
 
 }
