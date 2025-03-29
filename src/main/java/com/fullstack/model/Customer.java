@@ -30,7 +30,7 @@ public class Customer {
     private long custContactNumber;
 
     @Column(unique = true)
-    private String custEmailId;
+    private String custEmailId ;
 
     private String custPassword;
 

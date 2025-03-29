@@ -1,5 +1,7 @@
 package com.fullstack.controller;
 
+import com.fullstack.exception.RecordAlreadyExistException;
+import com.fullstack.exception.RecordNotFoundException;
 import com.fullstack.model.Customer;
 import com.fullstack.service.CustomerService;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +26,14 @@ public class CustomerController {
     public ResponseEntity<Customer> signup(@RequestBody Customer customer) {
 
         log.info("####### Trying to save data for Customer: " + customer.getCustName());
+
+        Customer customer1= customerService.findByEmailId(customer.getCustEmailId());
+
+        if(customer1 != null) {
+
+            throw new RecordAlreadyExistException("Customer with email id " + customer.getCustEmailId() + " is already exist");
+        }
+
         return ResponseEntity.ok(customerService.SignUp(customer));
 
     }
@@ -62,7 +72,7 @@ public class CustomerController {
     public ResponseEntity<List<Customer>> findByDOB(@PathVariable String custDOB) {
         SimpleDateFormat simpleDateFormat= new SimpleDateFormat("dd/MM/yyyy");
 
-        return ResponseEntity.ok(customerService.findAll().stream().filter(cust ->simpleDateFormat.format(cust.getCustDOB).equals(custDOB)).toList());
+        return ResponseEntity.ok(customerService.findAll().stream().filter(cust ->simpleDateFormat.format(cust.getCustDOB()).equals(custDOB)).toList());
 
     }
     @GetMapping("/findbyanyinput/{input}")
@@ -70,11 +80,40 @@ public class CustomerController {
 
         SimpleDateFormat simpleDateFormat= new SimpleDateFormat("dd/MM/yyyy");
 
-        return ResponseEntity.ok(customerService.findAll().stream().filter(cust->simpleDateFormat.format(input).equals(input)
+        return ResponseEntity.ok(customerService.findAll().stream().filter(cust->simpleDateFormat.format(cust.getCustDOB()).equals(input)
                 || cust.getCustName().equals(input)
                 || String.valueOf(cust.getCustId()).equals(input)
                 || String.valueOf(cust.getCustomerName()).equals(input)
                 || cust.getCustEmailId().equals(input)) .toList());
+    }
+
+    @PutMapping("/update/{custId}")
+    public ResponseEntity<Customer> update(@PathVariable int custId, @RequestBody Customer customer) {
+        Customer customer1=customerService.findById(custId).orElseThrow(()->new RecordNotFoundException("Customer #ID  Does not Exist"));
+
+        customer1.setCustName(customer.getCustName());
+        customer1.setCustAddress(customer.getCustAddress());
+        customer1.setCustContactNumber(customer.getCustContactNumber());
+
+        customer1.setCustAccountBalance(customer.getCustAccountBalance());
+        customer1.setCustEmailId(customer.getCustEmailId());
+        customer1.setCustPassword(customer.getCustPassword());
+
+        return ResponseEntity.ok(customerService.update(customer1));
+
+    }
+
+    @DeleteMapping("/deletebyid/{custId}")
+    public ResponseEntity<String> deleteById(@PathVariable int custId) {
+        customerService.deleteById(custId);
+        return ResponseEntity.ok("Successfully Deleted Customer id #" + custId);
+    }
+
+    @DeleteMapping("/deleteall/{custid}")
+    public ResponseEntity<String> deleteAll() {
+        customerService.deleteAll();
+        return ResponseEntity.ok("Successfully Deleted All Customers");
+
     }
 
 

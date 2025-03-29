@@ -15,6 +15,11 @@ public class CustomerServiceImpl implements CustomerService {
     private CustomerRepository customerRepository;
 
     @Override
+    public Customer findByEmailId(String custEmailId) {
+        return customerRepository.findByCustEmailId(custEmailId);
+    }
+
+    @Override
     public Customer SignUp(Customer customer) {
         return customerRepository.save(customer);
     }
@@ -46,7 +51,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Customer updateCustomer(Customer customer) {
+    public Customer update(Customer customer) {
         return customerRepository.save(customer);
     }
 
